@@ -1,0 +1,24 @@
+#Tells travis what language the project is in. 
+#Specifies version of Python
+langauge: python
+python:
+  - "3.6"
+
+#Tells Travis which services we need to use.
+  #all sub services will be in our Docker-compose and Docker config file. 
+services: 
+  - docker 
+
+#Specifies script Travis runs before it executes automation commands. 
+  #script: command for running our tests && our linter tool which is 'flake8'
+before_script: pip install docker-compose
+
+script: 
+  - docker-compose run app sc -c "python manage.py test && flake8"
+
+#Travis Order of Operations every time a change is is pushed to GitHub: 
+  #1) Spin up Python server in Python version 3.6
+  #2) Make Docker service available 
+  #3) Install docker-compose using pip
+  #4) Run our test script. 
+  #5) If script exits with a failure, it will fail the build and send notificaiton. 
