@@ -1,0 +1,31 @@
+#Allows us to run Docker image easily from our project location. 
+#Allows us to easily manage different services that make up our project 
+#i.e. Python application we run OR the Database.
+
+#Defines which version of docker-compose we want to use.
+version: "3"
+
+#Define services that make up the application. 
+#'app' is the name of our service.
+#build from home directory or '.'
+#shell command example: 
+  #docker-compose run app sh -c "django-admin.py startproject app ."  OR 
+  #docker-compose run app "django-admin.py startproject app ."  
+  #the actual command bing run is in the quotes.
+  #This command is included in django. Creates application called 'app' in our current location('.')
+services:
+  app:
+    build: 
+      context: .
+    ports: 
+      #Maps project from 8000 on host to 8000 on Docker Image. 
+      - "8000:8000"
+      #Allows us to get updates made to our project into our Docker Image in real time. 
+      #Maps from the application into the Docker Image that will be running the application. 
+    volumes:
+      - ./app:/app
+      #Defines command to run our application in the Docker container. 
+      #'sh -c' stands for shell command
+      #We define the host to run the django dev server on port 8000. 
+    command: > 
+      sh -c "python manage.py runserver 0.0.0.0:8000"
