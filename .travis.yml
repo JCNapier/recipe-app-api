@@ -1,6 +1,6 @@
 #Tells travis what language the project is in. 
 #Specifies version of Python
-langauge: python
+language: python
 python:
   - "3.6"
 
