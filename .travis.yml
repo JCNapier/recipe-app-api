@@ -9,6 +9,11 @@ python:
 services: 
   - docker 
 
+#echo $DOCKER_PASSWORD prints the password to the screen, and the | (pipe) will send that output to the proceeding command
+#docker login --username $DOCKER_USERNAME will call the docker login command with the username we set in the environment variables
+before_install: 
+  - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+
 #Specifies script Travis runs before it executes automation commands. 
   #script: command for running our tests && our linter tool which is 'flake8'
 before_script: pip install docker-compose
