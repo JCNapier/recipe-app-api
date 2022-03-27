@@ -14,7 +14,7 @@ services:
 before_script: pip install docker-compose
 
 script: 
-  - docker-compose run app sc -c "python manage.py test && flake8"
+  - docker-compose run app sh -c "python manage.py test && flake8"
 
 #Travis Order of Operations every time a change is is pushed to GitHub: 
   #1) Spin up Python server in Python version 3.6
