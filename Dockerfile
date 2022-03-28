@@ -13,8 +13,16 @@ ENV PYTHONUNBUFFERED 1
 #Stores Dependencies. Copies requirements file in the app DIR, 
 #Pastes them to a requirements.txt file in the docker file. 
 COPY ./requirements.txt /requirements.txt
+#Runs package manager that comes with alpine(apk), 
+  #update the registry, don't store registry index on docker file to minimize docker footprint. 
+RUN apk add --update --no-cache postgresql-client
+#creates alias for dependencies e.g. '.tmp-builds-deps', dependencies follow '\'
+RUN apk add --update --no-cache --virtual .tmp-build-deps \ 
+    gcc libc-dev linux-headers postgresql-dev 
 #Intsalls copied requirements folder and installs it into docker image using pip. 
 RUN pip install -r /requirements.txt
+#deletes alias 
+Run apk del .tmp-build-deps 
 
 #Creates DIR in Docker image to store application source code. 
 RUN mkdir /app
